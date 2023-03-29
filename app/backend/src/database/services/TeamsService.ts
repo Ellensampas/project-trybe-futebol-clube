@@ -1,15 +1,12 @@
-import { ModelStatic } from 'sequelize';
 import Teams from '../models/TeamModel';
 
 const getAll = async (): Promise<Teams[]> => {
-  const model: ModelStatic<Teams> = Teams;
-  const all = await model.findAll();
+  const all = await Teams.findAll();
   return all;
 };
 
 const getById = async (id: number): Promise<Teams | null > => {
-  const model: ModelStatic<Teams> = Teams;
-  const findById = await model.findOne({ where: { id } });
+  const findById = await Teams.findOne({ where: { id } });
   return findById;
 };
 
