@@ -7,6 +7,13 @@ const getAll = async (): Promise<Teams[]> => {
   return all;
 };
 
+const getById = async (id: number): Promise<Teams | null > => {
+  const model: ModelStatic<Teams> = Teams;
+  const findById = await model.findOne({ where: { id } });
+  return findById;
+};
+
 export default {
   getAll,
+  getById,
 };
