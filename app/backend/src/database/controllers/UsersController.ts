@@ -16,7 +16,7 @@ const logs = async (req: Request, res: Response) => {
     const token = criaToken(login);
     return res.status(200).json({ token });
   }
-  return res.status(401).json({ message: 'socorro deus' });
+  return res.status(401).json({ message: 'Invalid email or password' });
 };
 
 export default {
