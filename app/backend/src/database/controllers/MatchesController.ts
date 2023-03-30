@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import MatchesService from '../services/MatchesService';
 
-// const findAll = async (_req: Request, res: Response) => {
-//   const find = await MatchesService.getAll();
-//   return res.status(200).json(find);
-// };
+const findAll = async (_req: Request, res: Response) => {
+  const find = await MatchesService.getAll();
+  return res.status(200).json(find);
+};
 
 const filterTeam = async (req: Request, res: Response) => {
   const { inProgress } = req.query;
@@ -24,6 +24,6 @@ const filterTeam = async (req: Request, res: Response) => {
 };
 
 export default {
-  // findAll,
+  findAll,
   filterTeam,
 };
