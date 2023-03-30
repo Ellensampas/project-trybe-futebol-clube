@@ -20,9 +20,8 @@ const logs = async (req: Request, res: Response) => {
 };
 
 const validatTk = async (req: Request, res: Response) => {
-  const { email } = req.body;
-
-  const vali = await UserService.logs(email);
+  const { user } = req.body;
+  const vali = await UserService.getById(user.payload.id);
 
   if (vali) {
     return res.status(200).json({ role: vali.role });

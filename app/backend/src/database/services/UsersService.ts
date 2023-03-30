@@ -6,6 +6,9 @@ const logs = async (usuario: string) => {
   return login;
 };
 
+const getById = async (id: number) => UsersModel.findByPk(id);
+
 export default {
   logs,
+  getById,
 };

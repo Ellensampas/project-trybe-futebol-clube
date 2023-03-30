@@ -7,12 +7,12 @@ class App {
 
   constructor() {
     this.app = express();
-
     this.config();
-    this.app.use('/teams', TeamsRouter);
-    this.app.use('/login', LoginRouter);
+
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
+    this.app.use('/teams', TeamsRouter);
+    this.app.use('/login', LoginRouter);
   }
 
   private config():void {

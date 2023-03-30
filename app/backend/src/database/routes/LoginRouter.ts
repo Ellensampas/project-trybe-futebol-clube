@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import LoginController from '../controllers/UsersController';
+import userController from '../controllers/UsersController';
 import logValidation from '../middlewares/logValidations';
-import tkValidate from '../middlewares/tkValidate';
+import validate from '../middlewares/tkValidate';
 
 const router = Router();
 
-router.post('/', logValidation, LoginController.logs);
-router.get('/', tkValidate, LoginController.validatTk);
+router.post('/', logValidation, userController.logs);
+router.get('/role', validate.validateTk, userController.validatTk);
 
 export default router;
