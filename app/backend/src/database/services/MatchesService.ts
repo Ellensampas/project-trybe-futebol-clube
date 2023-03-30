@@ -10,6 +10,17 @@ const getAll = async () => {
   return get;
 };
 
+const filteredTeam = async (inProgress: boolean) => {
+  const get = await MatchesModel.findAll({
+    where: { inProgress },
+    include: [
+      { model: Teams, as: 'homeTeam', attributes: { exclude: ['id'] } },
+      { model: Teams, as: 'awayTeam', attributes: { exclude: ['id'] } },
+    ] });
+  return get;
+};
+
 export default {
   getAll,
+  filteredTeam,
 };
