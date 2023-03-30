@@ -20,7 +20,13 @@ const filteredTeam = async (inProgress: boolean) => {
   return get;
 };
 
+const idFinish = async (id: number) => {
+  const idFini = await MatchesModel.update({ inProgress: false }, { where: { id } });
+  return idFini;
+};
+
 export default {
   getAll,
   filteredTeam,
+  idFinish,
 };

@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import MatchesService from '../services/MatchesService';
 
-const findAll = async (_req: Request, res: Response) => {
-  const find = await MatchesService.getAll();
-  return res.status(200).json(find);
-};
+// const findAll = async (_req: Request, res: Response) => {
+//   const find = await MatchesService.getAll();
+//   return res.status(200).json(find);
+// };
 
 const filterTeam = async (req: Request, res: Response) => {
   const { inProgress } = req.query;
@@ -23,7 +23,16 @@ const filterTeam = async (req: Request, res: Response) => {
   }
 };
 
+const idFinish = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const att = await MatchesService.idFinish(+id);
+
+  if (att) {
+    return res.status(200).json({ message: 'Finished' });
+  }
+};
+
 export default {
-  findAll,
   filterTeam,
+  idFinish,
 };
