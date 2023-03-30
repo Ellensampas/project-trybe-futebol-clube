@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcryptjs';
-import criaToken from '../auth/token';
+import { criaToken } from '../auth/token';
 import UserService from '../services/UsersService';
 
 const logs = async (req: Request, res: Response) => {
@@ -19,6 +19,18 @@ const logs = async (req: Request, res: Response) => {
   return res.status(401).json({ message: 'Invalid email or password' });
 };
 
+const validatTk = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  const vali = await UserService.logs(email);
+
+  if (vali) {
+    return res.status(200).json({ role: vali.role });
+  }
+  return res.status(401).json('error');
+};
+
 export default {
   logs,
+  validatTk,
 };
