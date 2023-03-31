@@ -40,9 +40,18 @@ const attInfo = async (req: Request, res: Response) => {
     return res.status(200).json({ message: 'Placar Atualizado' });
   }
 };
+const newMat = async (req: Request, res: Response) => {
+  const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = req.body;
+  const att = await MatchesService.newMatch(homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals);
+
+  if (att) {
+    return res.status(201).json(att);
+  }
+};
 
 export default {
   filterTeam,
   idFinish,
   attInfo,
+  newMat,
 };

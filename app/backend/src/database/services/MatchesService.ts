@@ -33,9 +33,33 @@ const attInfos = async (id: number, home: number, alway: number) => {
   return idF;
 };
 
+const newMatch = async (
+  homeId: number,
+  home: number,
+  awayId: number,
+  away: number,
+) => {
+  const obj = { homeTeamId: homeId,
+    homeTeamGoals: home,
+    awayTeamId: awayId,
+    awayTeamGoals: away,
+  };
+  const { id } = await MatchesModel.create({
+    ...obj,
+    inProgress: true,
+  });
+  const complet = { id, ...obj, inProgress: true };
+  return complet;
+};
+
+// const checkTeams = async (homeId: number ,awayId: number) => {
+//   const find = await MatchesModel.findAll
+// }
+
 export default {
   getAll,
   filteredTeam,
   idFinish,
   attInfos,
+  newMatch,
 };
