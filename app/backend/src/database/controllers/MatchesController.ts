@@ -31,8 +31,18 @@ const idFinish = async (req: Request, res: Response) => {
     return res.status(200).json({ message: 'Finished' });
   }
 };
+const attInfo = async (req: Request, res: Response) => {
+  const { homeTeamGoals, awayTeamGoals } = req.body;
+  const { id } = req.params;
+  const att = await MatchesService.attInfos(+id, homeTeamGoals, awayTeamGoals);
+
+  if (att) {
+    return res.status(200).json({ message: 'Placar Atualizado' });
+  }
+};
 
 export default {
   filterTeam,
   idFinish,
+  attInfo,
 };

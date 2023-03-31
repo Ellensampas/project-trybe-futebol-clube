@@ -25,8 +25,17 @@ const idFinish = async (id: number) => {
   return idFini;
 };
 
+const attInfos = async (id: number, home: number, alway: number) => {
+  const idF = await MatchesModel.update(
+    { homeTeamGoals: home, awayTeamGoals: alway },
+    { where: { id } },
+  );
+  return idF;
+};
+
 export default {
   getAll,
   filteredTeam,
   idFinish,
+  attInfos,
 };
