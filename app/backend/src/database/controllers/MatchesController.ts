@@ -42,6 +42,20 @@ const attInfo = async (req: Request, res: Response) => {
 };
 const newMat = async (req: Request, res: Response) => {
   const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = req.body;
+
+  const veri = await MatchesService.checkTeams(homeTeamId);
+  const veri2 = await MatchesService.checkTeams(awayTeamId);
+
+  if (!veri || !veri2) {
+    return res.status(404).json({ message: 'There is no team with such id!' });
+  }
+
+  if (homeTeamId === awayTeamId) {
+    return res.status(422).json(
+      { message: 'It is not possible to create a match with two equal teams' },
+    );
+  }
+
   const att = await MatchesService.newMatch(homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals);
 
   if (att) {

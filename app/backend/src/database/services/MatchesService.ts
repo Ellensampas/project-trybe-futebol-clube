@@ -52,9 +52,10 @@ const newMatch = async (
   return complet;
 };
 
-// const checkTeams = async (homeId: number ,awayId: number) => {
-//   const find = await MatchesModel.findAll
-// }
+const checkTeams = async (id: number) => {
+  const find = await MatchesModel.findByPk(id);
+  return find;
+};
 
 export default {
   getAll,
@@ -62,4 +63,5 @@ export default {
   idFinish,
   attInfos,
   newMatch,
+  checkTeams,
 };
