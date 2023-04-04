@@ -29,14 +29,14 @@ const leaderBoardHome = async () => {
   const obj = (await times).map((tim) => {
     const part = partidasFinalizadas.filter((par) => par.homeTeamId === tim.id);
     const timeList = {
-      totalGames: part.length,
       name: tim.teamName,
-      totalVictories: part.filter((parti) => parti.homeTeamGoals > parti.awayTeamGoals).length,
       totalPoints: 0,
+      totalGames: part.length,
+      totalVictories: part.filter((parti) => parti.homeTeamGoals > parti.awayTeamGoals).length,
       totalDraws: part.filter((parti) => parti.homeTeamGoals === parti.awayTeamGoals).length,
+      totalLosses: part.filter((parti) => parti.awayTeamGoals > parti.homeTeamGoals).length,
       goalsFavor: returnFavor(part),
       goalsOwn: returnOwn(part),
-      totalLosses: part.filter((parti) => parti.awayTeamGoals > parti.homeTeamGoals).length,
     };
     return timeList;
   });
@@ -44,11 +44,32 @@ const leaderBoardHome = async () => {
 };
 
 const sum = async () => {
-  const totalP: ITeams[] = await leaderBoardHome();
+  const totalP = await leaderBoardHome();
   for (let i = 0; i < totalP.length; i += 1) {
     totalP[i].totalPoints = totalP[i].totalVictories * 3 + totalP[i].totalDraws;
   }
   return totalP;
 };
 
-export default { sum };
+const sortTimes = (arr: ITeams[]) => arr.sort((t1, t2) => {
+  if (t2.totalPoints === t1.totalPoints) {
+    if (t2.goalsBalance === t1.goalsBalance) {
+      return t2.goalsFavor - t1.goalsFavor;
+    } return t2.goalsBalance - t1.goalsBalance;
+  }
+  return t2.totalPoints - t1.totalPoints;
+});
+
+const insertCamps = async () => {
+  const totalP = await sum();
+  const arr: ITeams[] = [];
+  for (let i = 0; i < totalP.length; i += 1) {
+    const goalsBalance = totalP[i].goalsFavor - totalP[i].goalsOwn;
+    const efficiency = (((totalP[i].totalPoints) / (totalP[i].totalGames * 3)) * 100).toFixed(2);
+    arr[i] = { ...totalP[i], goalsBalance, efficiency };
+  }
+  const sortList = sortTimes(arr);
+  return sortList;
+};
+
+export default { insertCamps };
