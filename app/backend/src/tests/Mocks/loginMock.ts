@@ -10,3 +10,18 @@ export const usuario = {
   email: 'admin@admin.com',
   password: 'secret_admin',             
 } 
+
+export const senhaInvalido = {
+  email: 'admin@admin.com',
+  password: 'vilape'
+};
+
+export const emailInvalido = {
+  email: 'admin.com',
+  password: 'secret_admin'
+};
+
+export const emailVazio= {
+  email: '',
+  password: 'secret_admin'
+};
