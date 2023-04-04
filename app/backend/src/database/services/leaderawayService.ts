@@ -1,7 +1,7 @@
 import TeamService from './TeamsService';
 import MatchesService from './MatchesService';
 import Matches from '../models/matchesModel';
-// import { ITeams } from '../interface/ITeams';
+import { ITeams } from '../interface/ITeams';
 
 const returnFavor = (part: Matches[]) => {
   let conta = 0;
@@ -48,31 +48,28 @@ const sum = async () => {
   for (let i = 0; i < totalP.length; i += 1) {
     totalP[i].totalPoints = totalP[i].totalVictories * 3 + totalP[i].totalDraws;
   }
-  console.log(totalP);
   return totalP;
 };
 
-sum();
+const sortTimes = (arr: ITeams[]) => arr.sort((t1, t2) => {
+  if (t2.totalPoints === t1.totalPoints) {
+    if (t2.goalsBalance === t1.goalsBalance) {
+      return t2.goalsFavor - t1.goalsFavor;
+    } return t2.goalsBalance - t1.goalsBalance;
+  }
+  return t2.totalPoints - t1.totalPoints;
+});
 
-// const sortTimes = (arr: ITeams[]) => arr.sort((t1, t2) => {
-//   if (t2.totalPoints === t1.totalPoints) {
-//     if (t2.goalsBalance === t1.goalsBalance) {
-//       return t2.goalsFavor - t1.goalsFavor;
-//     } return t2.goalsBalance - t1.goalsBalance;
-//   }
-//   return t2.totalPoints - t1.totalPoints;
-// });
+const insertCamps = async () => {
+  const totalP = await sum();
+  const arr: ITeams[] = [];
+  for (let i = 0; i < totalP.length; i += 1) {
+    const goalsBalance = totalP[i].goalsFavor - totalP[i].goalsOwn;
+    const efficiency = (((totalP[i].totalPoints) / (totalP[i].totalGames * 3)) * 100).toFixed(2);
+    arr[i] = { ...totalP[i], goalsBalance, efficiency };
+  }
+  const sortList = sortTimes(arr);
+  return sortList;
+};
 
-// const insertCamps = async () => {
-//   const totalP = await sum();
-//   const arr: ITeams[] = [];
-//   for (let i = 0; i < totalP.length; i += 1) {
-//     const goalsBalance = totalP[i].goalsFavor - totalP[i].goalsOwn;
-//     const efficiency = (((totalP[i].totalPoints) / (totalP[i].totalGames * 3)) * 100).toFixed(2);
-//     arr[i] = { ...totalP[i], goalsBalance, efficiency };
-//   }
-//   const sortList = sortTimes(arr);
-//   return sortList;
-// };
-
-export default { sum };
+export default { insertCamps };
