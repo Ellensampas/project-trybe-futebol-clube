@@ -21,7 +21,7 @@ const returnOwn = (part: Matches[]) => {
   return conta;
 };
 
-const leaderBoardHome = async () => {
+const leaderBoardAway = async () => {
   const times = TeamService.getAll();
   const partidas = MatchesService.getAll();
   const partidasFinalizadas = (await partidas).filter((part) => part.inProgress !== true);
@@ -44,7 +44,7 @@ const leaderBoardHome = async () => {
 };
 
 const sum = async () => {
-  const totalP = await leaderBoardHome();
+  const totalP = await leaderBoardAway();
   for (let i = 0; i < totalP.length; i += 1) {
     totalP[i].totalPoints = totalP[i].totalVictories * 3 + totalP[i].totalDraws;
   }
@@ -69,7 +69,9 @@ const insertCamps = async () => {
     arr[i] = { ...totalP[i], goalsBalance, efficiency };
   }
   const sortList = sortTimes(arr);
+  console.log(sortList);
   return sortList;
 };
 
+insertCamps();
 export default { insertCamps };
